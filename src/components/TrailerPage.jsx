@@ -1,24 +1,17 @@
 import React from 'react';
+import BackButton from './BackButton';
 import { useLocation, useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 
 const TrailerPage = () => {
-    location = useLocation();
-    const [trailerLink, setTrailerLink] = useState(null);
+    const location = useLocation();
     const { movieID } = useParams();
     const { movieTitle, movieDescription } = location.state || {};
 
-    const fetchTrailer = (movieID) => {
-        const youtube_link = `https://www.youtube.com/embed/${movieID}`
-        setTrailerLink(youtube_link)
-    }
-
-    useEffect(()=>{
-        fetchTrailer(); 
-    },[movieID])
-
   return (
-    <div className="container my-5">
+    <div className="container">
+      <div className='container my-2' style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+        <BackButton />
+      </div>
       <div className="card shadow">
         <div className="card-body">
           <h2 className="card-title">{movieTitle}</h2>
@@ -26,11 +19,10 @@ const TrailerPage = () => {
 
           <div className="ratio ratio-16x9 mt-4">
             {
-                trailerLink ? (
+                movieID ? (
                     <iframe
-                    src={trailerLink}
+                    src={`https://www.youtube.com/embed/${movieID}`}
                     title={`${movieTitle} Trailer`}
-                    allowFullScreen
                   ></iframe>
                 ):(
                   <div className="lds-container">
